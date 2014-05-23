@@ -18,21 +18,20 @@ package org.elasticsearch.plugin.bx.rest.action;
 
 import static org.elasticsearch.rest.RestRequest.Method.GET;
 import static org.elasticsearch.rest.RestStatus.OK;
-
-import java.io.IOException;
+import static org.elasticsearch.rest.RestStatus.INTERNAL_SERVER_ERROR;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.indices.IndicesService;
 import org.elasticsearch.rest.BaseRestHandler;
 import org.elasticsearch.rest.RestChannel;
 import org.elasticsearch.rest.RestController;
 import org.elasticsearch.rest.RestRequest;
-import org.elasticsearch.rest.XContentRestResponse;
-import org.elasticsearch.rest.XContentThrowableRestResponse;
-import org.elasticsearch.rest.action.support.RestXContentBuilder;
+import org.elasticsearch.rest.BytesRestResponse;
+
 
 public class CustomStatusAction extends BaseRestHandler {
 	private static String status = "";
@@ -57,19 +56,16 @@ public class CustomStatusAction extends BaseRestHandler {
             }
             
             XContentBuilder builder = createXContentBuilderForReload(request);
-            channel.sendResponse(new XContentRestResponse(request, OK, builder));
+            channel.sendResponse(new BytesRestResponse(OK, builder));
         } catch (Exception e) {
-            try {
-                channel.sendResponse(new XContentThrowableRestResponse(request, e));
-            } catch (IOException e1) {
-            }
+        	channel.sendResponse(new BytesRestResponse(INTERNAL_SERVER_ERROR));
         }
     }
 
     private XContentBuilder createXContentBuilderForReload(final RestRequest request) {
         XContentBuilder builder = null;
         try {
-            builder = RestXContentBuilder.restContentBuilder(request);
+            builder = XContentFactory.jsonBuilder();
             builder.startObject();
             builder.field("ok", "true");
             builder.field("status", status.length() == 0 ? "true" : status);
