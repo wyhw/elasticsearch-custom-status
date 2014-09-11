@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.elasticsearch</groupId>
     <artifactId>elasticsearch-custom-status</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <packaging>jar</packaging>
     <name>Elasticsearch Custom status plugin</name>
     <description>The custom status plugin allows to use the REST interface set custom status.</description>
@@ -32,7 +32,7 @@
     </parent>
 
     <properties>
-        <elasticsearch.version>1.2.0</elasticsearch.version>
+        <elasticsearch.version>1.3.2</elasticsearch.version>
     </properties>
 
     <repositories>

@@ -45,7 +45,7 @@ public class CustomStatusAction extends BaseRestHandler {
 
     @Override
     public void handleRequest(final RestRequest request,
-            final RestChannel channel) {
+            final RestChannel channel, final Client client) {
 
         String _status = request.param("status", null);
 
